@@ -1,0 +1,53 @@
+Na implementaciu piskvoriek som pouzil kod z:
+
+https://gist.githubusercontent.com/qpwo/c538c6f73727e254fdc7fab81024f6e1/raw/ff883d02e5a33229c7a90a61f416dd8b2a6f99a0/tictactoe.py
+
+(pri ktorom som stravil nenulovy cas na jeho pochopenie). Kod po viacerych upravach nasledne funguval pre 2 skutocnych hracov. Najvyznamnejsia bola:
+
+for _ in range(2):
+	row_col = input("enter row,col: ")
+        row, col = map(int, row_col.split(","))
+        index = 3 * (row - 1) + (col - 1)
+        if board.tup[index] is not None:
+            raise RuntimeError("Invalid move")
+        board = board.make_move(index)
+        if board.terminal:
+            break
+
+
+cim som sa dostal ku "startovacej pozicie", kde fungovalo vsetko co sa tyka piskvoriek a mohol som pristupit k implemetacii Monte Carlo Search Tree (upravil som aj ine detaily, ktore sa mi nepacili a podla mojho nazoru boli skarede). Ten pozostava zo 4 casti/krokov/faz:
+
+1. SELECTION
+
+-algoritmus zacina v roote a vyberie toho syna, ktory ma najvacsi pomer vitazstiev k vsetkym. Chceme si byt zaroven isty, ze kazdy syn ma spravodlivu sancu byt vybrany
+-snazime sa vyberat optimalneho syna az po list, na spravny vyber sa pouziva Upper Confidence Bound
+
+wi/ni +- c * √(ln t / ni)
+
+kde:
+
+wi = pocet vyhier po i-tom tahu
+ni = pocet simulacii po i-tom tahu
+c = exploracny parameter (teoreticky rovny √2)
+t = celkovy pocet simulacii pre otca
+
+-tato rovnost nam zabranuje vyhladoveniu a slubnejsie vetvy vybera castejsie. Nakoniec vyberame MAX z takto vytvorenych hodnot pre syna
+
+
+2. EXPANSION
+
+-ak uz na najdenie spravneho syna nevieme aplikovat UCT, rozsirime strom pridanim nasledujucej konfiguracie hry (ktora vznikla z danej "otcovskej" konfiguracie)
+
+3. SIMULATION
+
+-po kroku 2. vyberieme lubovolneho syna a nahodne simulujeme hru az po koniec - list stromu
+
+4. BACKPROPAGATION
+
+
+-po dosiahnuti konca hry, zistime kto vyhral
+-splhame ku korenu pricom updatujeme skore (wi, ni)
+
+MCTS opakuje tieito 4 kroky po nejaky fixny bod, ci uz je to (ako v nasom pripade) az po koniec hry, alebo do nejake maximalnej hlbky (napr. maximalne 4 tahy)
+
+Specifickejsi popis najdete v kode priamo pri jednotlivych metodach.

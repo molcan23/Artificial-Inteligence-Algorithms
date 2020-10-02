@@ -1,0 +1,38 @@
+# SK:
+# stlpce: ma cas sa ucit, chce sa mu ucit, ucil sa, urobil skusku
+# ucil sa je diskretna nahodna premenna, 0 = malo, 1 = akurat, 2 = vela
+# ostatne nahodne premenne su boolean, 0 = nie, 1 = ano
+# EN:
+# columns: he have time to learn, he wants to learn, he was studying, pass the exam
+# he was studying is discrete random variable, 0 = a little, 1 = just enough, 2 = a lot
+# other random variables are boolean, 0 = no, 1 = yes
+1 0 1 1
+0 1 1 1
+0 0 0 0
+1 0 0 0
+1 0 0 0
+1 1 0 1
+1 0 0 0
+0 0 0 0
+1 0 0 0
+1 1 2 1
+0 1 1 1
+0 0 0 0
+0 1 1 1
+1 1 2 1
+1 0 1 0
+1 0 2 1
+0 0 2 1
+0 0 0 1
+1 1 2 1
+1 0 1 1
+1 0 1 1
+0 0 0 0
+0 0 1 0
+1 0 0 0
+0 1 0 1
+0 0 0 0
+1 1 0 1
+1 0 1 1
+1 0 1 1
+1 1 2 1
